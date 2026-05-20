@@ -1,4 +1,4 @@
-import { layout } from './layout.js';
+import { layout } from "./layout.js";
 
 /* O jogo é a página inicial — não há página de marketing nem autenticação.
    Veja playPage abaixo. */
@@ -7,8 +7,8 @@ import { layout } from './layout.js';
 export function playPage(progress) {
   const byId = Object.fromEntries((progress ?? []).map((p) => [p.levelId, p]));
   return layout({
-    title: 'Opere a Rede',
-    brand: 'Metrô',
+    title: "Opere a Rede",
+    brand: "Metrô",
     head: `<script type="module" src="/public/js/game/main.js"></script>`,
     body: `
     <!-- O palco é um grid de duas linhas: o mapa em cima ocupando tudo,
@@ -18,7 +18,27 @@ export function playPage(progress) {
 
       <!-- O mapa do metrô ocupa todo o miolo. -->
       <div class="stage__map">
-        <!-- Título do nível — HUD flutuante no canto superior-esquerdo. -->
+        <!-- Logo — fixo e centralizado no topo. Ícone do Git + "MetroGit"
+             + crédito, tudo linkando para o site do autor. -->
+        <a class="brand" href="https://ciromaciel.click/" target="_blank" rel="noopener">
+          <svg class="brand__mark" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+            <path d="M11 8a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+            <path d="M11 16a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+            <path d="M12 15v-6" />
+            <path d="M15 11l-2 -2" />
+            <path d="M11 7l-1.9 -1.9" />
+            <path d="M13.446 2.6l7.955 7.954a2.045 2.045 0 0 1 0 2.892l-7.955 7.955a2.045 2.045 0 0 1 -2.892 0l-7.955 -7.955a2.045 2.045 0 0 1 0 -2.892l7.955 -7.955a2.045 2.045 0 0 1 2.892 0" />
+          </svg>
+          <span class="brand__text">
+            <strong class="brand__name">MetroGit</strong>
+            <span class="brand__by">by Ciro Cesar Maciel</span>
+          </span>
+        </a>
+
+        <!-- HUD do nível — card flutuante no canto superior-esquerdo. -->
         <header class="hud hud--top">
           <span class="eyebrow eyebrow--strong" id="level-eyebrow">Nível 01 — Partida</span>
           <h1 class="hud__title" id="level-title">Construa a Linha</h1>

@@ -350,6 +350,59 @@ a {
   margin: 6px 0 0;
 }
 
+/* Logo do jogo — fixo e centralizado no topo. Ícone Git + "MetroGit"
+   + crédito, num card de vidro fosco para destacar sobre o mapa. */
+.brand {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  text-decoration: none;
+  /* Keyframe próprio: preserva o translateX(-50%) do centramento
+     (a animação hud-in genérica zeraria o transform). */
+  animation: brand-in var(--dur-base) var(--ease-out) both;
+}
+@keyframes brand-in {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+.brand__mark {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  color: var(--gray-9);
+}
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.brand__name {
+  font-size: var(--fz-lg);
+  font-weight: var(--fw-ultra);
+  letter-spacing: var(--ls-tight);
+  color: var(--fg-primary);
+}
+.brand__by {
+  font-size: var(--fz-micro);
+  font-weight: var(--fw-semibold);
+  color: var(--fg-muted);
+  transition: color var(--dur-fast) var(--ease-default);
+}
+.brand:hover .brand__by {
+  color: var(--fg-secondary);
+}
+
 /* ── Guia da meta — card vertical, fixo no canto superior-direito.
    Empilha: eyebrow + tarefa, barra de progresso, passos, dica. ─────── */
 .guide {

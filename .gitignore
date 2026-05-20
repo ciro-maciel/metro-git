@@ -2,3 +2,6 @@ node_modules/
 data/*.db
 data/*.db-*
 .env
+
+# Artefato do `bun run build` — bundle minificado, não versionado.
+public/js/game/dist/

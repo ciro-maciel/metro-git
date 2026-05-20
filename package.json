@@ -2,10 +2,13 @@
   "name": "metro-git",
   "version": "0.1.0",
   "type": "module",
-  "description": "Metro Git — a Canvas game that teaches Git through a metro-network metaphor",
+  "description": "MetroGit — um jogo em Canvas que ensina Git pela metáfora de uma rede de metrô",
+  "author": "Ciro Cesar Maciel (https://ciromaciel.click/)",
+  "license": "Apache-2.0",
   "scripts": {
     "dev": "bun --watch src/app.js",
     "start": "bun src/app.js",
+    "build": "bun build public/js/game/main.js --outdir public/js/game/dist --minify --target browser",
     "test": "bun test"
   },
   "dependencies": {
