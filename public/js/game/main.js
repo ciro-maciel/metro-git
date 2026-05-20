@@ -230,14 +230,12 @@ function checkClear() {
   narrate(`${level.title} concluída.`);
   nextBtn.disabled = false;
 
-  /* Persist — best-effort. A logged-out player simply isn't saved. */
-  if (user) {
-    fetch('/api/progress/complete', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ levelId: level.id }),
-    }).catch(() => {});
-  }
+  /* Salva o progresso do perfil local — best-effort, sem autenticação. */
+  fetch('/api/progress/complete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ levelId: level.id }),
+  }).catch(() => {});
 }
 
 /* ── Registro de atividade — linguagem de metrô (pré-revelação) ─────── */
