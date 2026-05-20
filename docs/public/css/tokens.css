@@ -1,0 +1,314 @@
+/* ─────────────────────────────────────────────────────────────────────
+   Storage by RiLiGar — Design Tokens
+   Sourced from: dashboard/src/theme.js + website/src/main.css
+   System:       "Zen Aesthetics" — Monochrome, type-first, generous whitespace
+   ───────────────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  /* ─── FONT FAMILIES ─────────────────────────────────────────────── */
+  /* Decisão deste projeto (Metro Git): UMA única fonte — Montserrat —
+     para absolutamente tudo. `--font-mono` aponta de propósito para
+     Montserrat para que qualquer código herdado que use a variável
+     continue na mesma família. Não reintroduzir uma fonte mono. */
+  --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Montserrat', system-ui, -apple-system, sans-serif;
+
+  /* ─── TYPE SCALE — RAW SIZES ────────────────────────────────────── */
+  /* Hero / display sizes are deliberately huge (40–80px). Body is
+     14–18px. The system leans on FAT WEIGHTS (800–950) more than size. */
+  --fz-hero:        72px;   /* Hero h1: 40 / 56 / 72 responsive */
+  --fz-display:     56px;   /* ZenLayout title (md+) */
+  --fz-h1:          48px;   /* Dashboard ZenLayout title */
+  --fz-h2:          32px;   /* Bento card titles */
+  --fz-h3:          24px;   /* Section sub-titles, Collection names */
+  --fz-xl:          20px;   /* Lead text */
+  --fz-lg:          18px;   /* Body emphasized */
+  --fz-md:          16px;   /* Body */
+  --fz-sm:          14px;   /* UI default (Mantine sm) */
+  --fz-xs:          12px;   /* Captions */
+  --fz-tag:         11px;   /* Eyebrows / overline labels */
+  --fz-micro:       10px;   /* Status labels, version chips */
+  --fz-metric:      64px;   /* Big-Number metrics on dashboards */
+  --fz-metric-xl:   80px;   /* Hero-sized landing metrics */
+
+  /* ─── FONT WEIGHTS ──────────────────────────────────────────────── */
+  /* The visual identity is built on EXTREME weight contrast.
+     Body / inputs:         500–600
+     UI buttons / labels:   700
+     Sub-titles:            800
+     Big titles:            900
+     Hero / display:        950 (used liberally) */
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+  --fw-heavy:    800;
+  --fw-black:    900;
+  --fw-ultra:    950;
+
+  /* ─── LETTER SPACING ────────────────────────────────────────────── */
+  /* Negative tracking on big type ("zen tightening"); wide tracking on
+     uppercase eyebrow labels. */
+  --ls-hero:       -0.05em;  /* hero h1 */
+  --ls-display:    -0.04em;  /* large titles */
+  --ls-tight:      -0.02em;  /* h3, names */
+  --ls-normal:      0;
+  --ls-eyebrow:     0.12em;  /* uppercase eyebrows on landing */
+  --ls-overline:    0.10em;  /* uppercase tags / status */
+  --ls-uppercase:   0.06em;  /* uppercase buttons / chips */
+
+  /* ─── LINE HEIGHT ───────────────────────────────────────────────── */
+  --lh-hero:    1.0;   /* dense display */
+  --lh-tight:   1.1;   /* titles */
+  --lh-snug:    1.4;
+  --lh-body:    1.6;   /* Mantine Text default override */
+  --lh-loose:   1.7;   /* footer descriptions */
+
+  /* ─── COLOR — NEUTRAL UNIVERSAL SCALE (theme.js `gray`) ─────────── */
+  /* The product is intentionally MONOCHROMATIC. Brand identity = grayscale. */
+  --gray-0:  #F8F8F8;  /* RiLiGar Soft — light surface, light bento */
+  --gray-1:  #F3F4F6;  /* hover / subtle */
+  --gray-2:  #E5E7EB;  /* borders */
+  --gray-3:  #D1D5DB;  /* disabled */
+  --gray-4:  #9CA3AF;  /* placeholder, muted eyebrows */
+  --gray-5:  #6B7280;  /* secondary text */
+  --gray-6:  #4B5563;  /* primary-soft text */
+  --gray-7:  #374151;  /* primary text */
+  --gray-8:  #1F2937;  /* headers */
+  --gray-9:  #34322D;  /* RiLiGar Brand Black — the only non-cool gray */
+
+  /* ─── COLOR — BRAND SCALE (theme.js `brand`) ────────────────────── */
+  /* Warm-tinted siblings to gray-9. Used for buttons, hovers, dark surfaces. */
+  --brand-0:  #F2F2F1;
+  --brand-1:  #E5E5E3;
+  --brand-2:  #D8D8D5;
+  --brand-3:  #CBCBC7;
+  --brand-4:  #BEBEB9;
+  --brand-5:  #B1B1AB;
+  --brand-6:  #A4A49D;
+  --brand-7:  #97978F;
+  --brand-8:  #34322D;  /* === gray-9 — the canonical Brand Black */
+  --brand-9:  #2A2824;  /* deepest — pressed states */
+
+  /* ─── COLOR — ACCENTS (sparingly used, mostly status) ───────────── */
+  /* Blue is reserved for "Infrastructure" badge eyebrows in modals
+     and the radial decorative blur on API-key cards. Never used as
+     a primary action color. */
+  --blue-0:  #E7F5FF;
+  --blue-5:  #339AF0;  /* Infrastructure eyebrow */
+  --blue-9:  #1864AB;  /* radial blur on API key panel */
+
+  /* Status colors — used only inside notifications, danger zones, dot badges */
+  --green-5: #51CF66;  /* live pulse, success */
+  --green-7: #2F9E44;  /* success result text */
+  --red-0:   #FFF5F5;  /* danger zone bg */
+  --red-1:   #FFE3E3;  /* danger zone border */
+  --red-6:   #FA5252;  /* destructive action */
+  --red-7:   #E03131;  /* error result text */
+  --red-8:   #C92A2A;  /* danger heading */
+  --red-9:   #A51111;
+  --orange-5:#FF922B;  /* staging env */
+
+  /* ─── SEMANTIC ALIASES ──────────────────────────────────────────── */
+  --fg-primary:    var(--gray-9);   /* default text on white */
+  --fg-secondary:  var(--gray-7);   /* body */
+  --fg-tertiary:   var(--gray-5);   /* meta, descriptions */
+  --fg-muted:      var(--gray-4);   /* eyebrow labels */
+  --fg-disabled:   var(--gray-3);
+  --fg-on-dark:    #FFFFFF;
+  --fg-on-dark-muted: var(--gray-4);
+
+  --bg-app:        #FFFFFF;          /* most surfaces are white */
+  --bg-soft:       var(--gray-0);    /* Zen "soft box" */
+  --bg-subtle:     var(--gray-1);    /* hovers */
+  --bg-inverse:    var(--gray-9);    /* dark cards / cta bg */
+  --bg-inverse-deep: var(--brand-9); /* pressed dark */
+
+  --border-default: var(--gray-2);    /* 1px sólido — the only border style */
+  --border-subtle:  var(--gray-1);
+  --border-strong:  var(--gray-3);
+  --border-inverse: var(--gray-8);    /* on dark bg */
+
+  /* ─── RADII ─────────────────────────────────────────────────────── */
+  /* ONE radius, everywhere. 8px (md) is the system default — cards,
+     buttons, inputs, modals, code blocks, sidebar links, all use it.
+     The only exception is `--radius-pill` for status badges, which
+     stay pill-shaped to read as label tape, not chips. */
+  --radius-xs: 8px;
+  --radius-sm: 8px;
+  --radius-md: 8px;
+  --radius-lg: 8px;
+  --radius-xl: 8px;
+  --radius-pill: 9999px; /* badges only */
+
+  /* Padding único para TODO card de interface (HUD, guia, controles,
+     navegação). Um valor só = cards consistentes e enxutos. */
+  --card-pad: 12px 14px;
+
+  /* ─── SHADOWS (theme.js) ────────────────────────────────────────── */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.10), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.10), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.10), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-modern: 0 10px 30px -10px rgba(0, 0, 0, 0.10); /* `.modern-shadow` from main.css */
+  --shadow-bento-hover: 0 20px 40px rgba(0, 0, 0, 0.05); /* lift on hover */
+  --shadow-cta: 0 20px 40px rgba(0, 0, 0, 0.10);          /* primary button rest state */
+
+  /* ─── SPACING (Mantine scale) ───────────────────────────────────── */
+  --sp-xs: 8px;
+  --sp-sm: 12px;
+  --sp-md: 16px;
+  --sp-lg: 24px;
+  --sp-xl: 32px;
+  --sp-2xl: 48px;
+  --sp-3xl: 60px;     /* ZenLayout `gap={60}` between header and content */
+  --sp-4xl: 80px;     /* DashboardView major section gap */
+  --sp-5xl: 120px;    /* landing section py */
+
+  /* ─── MOTION ────────────────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.165, 0.84, 0.44, 1);  /* bento card lift */
+  --ease-default: ease;
+  --dur-fast: 0.2s;
+  --dur-base: 0.3s;
+  --transform-active: scale(0.98);    /* button :active */
+  --translate-hover: translateY(-4px); /* card hover lift small */
+  --translate-bento: translateY(-8px); /* bento card hover lift big */
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Base
+   ───────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fz-sm);
+  line-height: var(--lh-body);
+  color: var(--fg-primary);
+  background: var(--bg-app);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Semantic type — drop-in classes mirroring the codebase patterns
+   ───────────────────────────────────────────────────────────────────── */
+
+/* Hero — landing h1.  Used: Hero.jsx (fw 950, lts -0.05em, lh 1) */
+.hero {
+  font-family: var(--font-sans);
+  font-size: var(--fz-hero);
+  font-weight: var(--fw-ultra);
+  line-height: var(--lh-hero);
+  letter-spacing: var(--ls-hero);
+  color: var(--fg-primary);
+}
+
+/* Display — section title (ZenLayout title, fz 36/56, fw 950, lts -0.04em) */
+.display {
+  font-size: var(--fz-display);
+  font-weight: var(--fw-ultra);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
+}
+
+/* H1 — dashboard ZenLayout title (fz 48, fw 900, lts -0.04em, lh 1) */
+.h1 {
+  font-size: var(--fz-h1);
+  font-weight: var(--fw-black);
+  line-height: 1;
+  letter-spacing: var(--ls-display);
+}
+
+/* H2 — bento card titles (fz 32, fw 950, lts -0.04em) */
+.h2 {
+  font-size: var(--fz-h2);
+  font-weight: var(--fw-ultra);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
+}
+
+/* H3 — sub-section / collection name (fz 24, fw 800, lts -0.02em) */
+.h3 {
+  font-size: var(--fz-h3);
+  font-weight: var(--fw-heavy);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+}
+
+/* Body — Mantine Text default (size sm, fw 500, lh 1.6) */
+.p {
+  font-size: var(--fz-md);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-body);
+  color: var(--fg-secondary);
+}
+
+/* Lead — large body next to titles (fz xl, fw 500, c gray.6) */
+.lead {
+  font-size: var(--fz-xl);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-body);
+  color: var(--gray-6);
+}
+
+/* Eyebrow — the signature uppercase overline used everywhere
+   (size xs / 11px, fw 800–900, tt uppercase, lts 0.12em, c gray.4 or gray.9) */
+.eyebrow {
+  font-size: var(--fz-tag);
+  font-weight: var(--fw-heavy);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-eyebrow);
+  color: var(--fg-muted);
+}
+.eyebrow--strong { color: var(--fg-primary); font-weight: var(--fw-black); }
+
+/* Caption / meta */
+.caption {
+  font-size: var(--fz-xs);
+  font-weight: var(--fw-medium);
+  color: var(--fg-tertiary);
+}
+
+/* Metric — the big-number type used in ZenMetrics + DashboardView
+   (fz 64–80, fw 900–950, lts -0.04 to -0.05em, lh 1) */
+.metric {
+  font-size: var(--fz-metric);
+  font-weight: var(--fw-black);
+  line-height: 1;
+  letter-spacing: var(--ls-display);
+}
+.metric--xl { font-size: var(--fz-metric-xl); font-weight: var(--fw-ultra); letter-spacing: var(--ls-hero); }
+.metric__unit {
+  font-size: var(--fz-xl);
+  font-weight: var(--fw-heavy);
+  color: var(--gray-4);
+}
+
+/* Mono — code blocks, API keys, table data */
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--fz-xs);
+  font-weight: var(--fw-medium);
+  color: var(--gray-7);
+}
+
+/* Code block — bg white, 1px gray-2 border, padding md, radius md */
+.code-block {
+  font-family: var(--font-mono);
+  font-size: var(--fz-xs);
+  line-height: 1.6;
+  background: var(--bg-app);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--sp-md);
+  color: var(--gray-7);
+  white-space: pre;
+  overflow-x: auto;
+}

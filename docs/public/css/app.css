@@ -1,0 +1,835 @@
+/* ─────────────────────────────────────────────────────────────────────
+   Metro Git — application styles. Sits on top of tokens.css (RiLiGar
+   "Zen Aesthetics"). Monochrome, hairline borders, 8px radius, weight-led.
+   ───────────────────────────────────────────────────────────────────── */
+
+/* Regra do projeto: UMA fonte, Montserrat, em TODO elemento. O seletor
+   universal cobre até inputs/buttons/canvas — que por padrão usariam a
+   fonte do sistema (Arial/Helvetica). Nada escapa para outra família. */
+*,
+*::before,
+*::after,
+input,
+button,
+textarea,
+select {
+  font-family:
+    "Montserrat",
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+/* ── Layout shell ──────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 1184px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Floating navbar — RiLiGar capsule, 8px radius, lifted from the edge. */
+.nav {
+  position: sticky;
+  top: 16px;
+  z-index: 50;
+  margin: 16px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 10px 16px;
+  background: var(--bg-app);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+}
+.nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: var(--fw-black);
+  letter-spacing: var(--ls-tight);
+}
+.nav__brand img {
+  width: 24px;
+  height: 24px;
+}
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Buttons — single system: 8px radius, weight 700 ───────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap; /* o rótulo nunca quebra em duas linhas */
+  font-family: var(--font-sans);
+  font-size: var(--fz-sm);
+  font-weight: var(--fw-bold);
+  padding: 12px 22px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    transform var(--dur-fast) var(--ease-default),
+    background var(--dur-fast) var(--ease-default);
+}
+.btn:active {
+  transform: var(--transform-active);
+}
+.btn--primary {
+  background: var(--gray-9);
+  color: var(--fg-on-dark);
+}
+.btn--primary:hover {
+  background: var(--brand-9);
+}
+.btn--secondary {
+  background: transparent;
+  color: var(--gray-7);
+}
+.btn--secondary:hover {
+  background: var(--bg-subtle);
+}
+.btn--on-dark {
+  background: var(--fg-on-dark);
+  color: var(--gray-9);
+}
+.btn--sm {
+  padding: 8px 14px;
+  font-size: var(--fz-xs);
+}
+
+/* ── Eyebrow → title → gulf section header (the Zen pattern) ───────── */
+.zen-header {
+  margin-bottom: var(--sp-3xl);
+}
+.zen-header .eyebrow {
+  display: block;
+  margin-bottom: 12px;
+}
+
+/* ── Status badge — pill, intentional exception to 8px rule ────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fz-micro);
+  font-weight: var(--fw-heavy);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-overline);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-default);
+}
+.badge--live {
+  color: var(--green-7);
+  border-color: var(--green-5);
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green-5);
+}
+.dot--pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}
+
+/* ── Cards ─────────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-app);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  padding: 32px;
+}
+.card--soft {
+  background: var(--bg-soft);
+}
+.card--dark {
+  background: var(--gray-9);
+  color: var(--fg-on-dark);
+}
+
+/* ── Landing hero ──────────────────────────────────────────────────── */
+.hero-section {
+  padding: 80px 0 60px;
+  text-align: center;
+}
+.hero-section .hero {
+  font-size: clamp(40px, 7vw, 72px);
+  margin: 16px 0;
+}
+.hero-section p {
+  font-size: var(--fz-xl);
+  font-weight: var(--fw-semibold);
+  color: var(--gray-9);
+  max-width: 640px;
+  margin: 0 auto 32px;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+/* ── Level grid (tutorial map) ─────────────────────────────────────── */
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 760px) {
+  .level-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.level-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.level-card[data-status="unlocked"]:hover,
+.level-card[data-status="completed"]:hover {
+  transform: var(--translate-hover);
+}
+.level-card[data-status="locked"] {
+  opacity: 0.45;
+}
+.level-card__index {
+  font-size: var(--fz-xs);
+  color: var(--fg-muted);
+  font-weight: var(--fw-heavy);
+}
+.level-card h3 {
+  margin: 0;
+}
+.level-card p {
+  font-size: var(--fz-sm);
+  color: var(--fg-tertiary);
+  margin: 0;
+  flex: 1;
+}
+
+/* ── Game stage — posicionamento fixo, sem grid ────────────────────── */
+.stage {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-soft);
+  overflow: hidden;
+}
+
+/* O mapa do metrô preenche a viewport inteira, atrás de tudo. */
+.stage__map {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-soft);
+  overflow: hidden;
+}
+
+/* Barra inferior — fixa, colada no rodapé. Três cards lado a lado. */
+.stage__bar {
+  position: fixed;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  z-index: 3;
+  /* Controles centralizados na largura toda da barra; a navegação ancora
+     à direita por cima, sem empurrar o centro. */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.stage__bar > .controls {
+  flex: 0 0 auto;
+}
+.stage__bar > .nav-cluster {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  /* transform: translateY(-50%); */
+}
+
+/* Marca d'água — trem gigante, sólido, MUITO sutil, atrás do canvas.
+   Centralizado no mapa; some sob as estações conforme a rede cresce. */
+.map-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(72%, 680px);
+  height: auto;
+  transform: translate(-50%, -50%);
+  color: var(--gray-9);
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* O canvas é transparente — desenha estações e trilhos sobre o fundo do
+   .stage__map, deixando a marca d'água do trem aparecer atrás. */
+#metro-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
+
+/* ── Animações de entrada — sutis, easing do RiLiGar ───────────────── */
+@keyframes hud-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.icon {
+  display: block;
+  flex: none;
+}
+
+/* Cartão de título — HUD flutuante no canto superior-esquerdo do mapa. */
+.hud {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  padding: var(--card-pad);
+  animation: hud-in var(--dur-base) var(--ease-out) both;
+}
+.hud--top {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+  max-width: 360px;
+}
+.hud--top .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hud__title {
+  font-size: var(--fz-h3);
+  font-weight: var(--fw-ultra);
+  letter-spacing: var(--ls-tight);
+  margin: 6px 0 0;
+}
+
+/* Logo do jogo — fixo e centralizado no topo. Ícone Git + "MetroGit"
+   + crédito, num card de vidro fosco para destacar sobre o mapa. */
+.brand {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  text-decoration: none;
+  /* Keyframe próprio: preserva o translateX(-50%) do centramento
+     (a animação hud-in genérica zeraria o transform). */
+  animation: brand-in var(--dur-base) var(--ease-out) both;
+}
+@keyframes brand-in {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+.brand__mark {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  color: var(--gray-9);
+}
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.brand__name {
+  font-size: var(--fz-lg);
+  font-weight: var(--fw-ultra);
+  letter-spacing: var(--ls-tight);
+  color: var(--fg-primary);
+}
+.brand__by {
+  font-size: var(--fz-micro);
+  font-weight: var(--fw-semibold);
+  color: var(--fg-muted);
+  transition: color var(--dur-fast) var(--ease-default);
+}
+.brand:hover .brand__by {
+  color: var(--fg-secondary);
+}
+
+/* ── Guia da meta — card vertical, fixo no canto superior-direito.
+   Empilha: eyebrow + tarefa, barra de progresso, passos, dica. ─────── */
+.guide {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 18px;
+  background: var(--bg-app);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  animation: hud-in var(--dur-base) var(--ease-out) both;
+  animation-delay: 80ms;
+}
+.guide__top {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.guide__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fz-micro);
+  font-weight: var(--fw-black);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-overline);
+  color: var(--fg-muted);
+  white-space: nowrap;
+}
+.guide__eyebrow .icon {
+  color: var(--gray-9);
+}
+.guide__task {
+  font-size: var(--fz-md);
+  font-weight: var(--fw-ultra);
+  letter-spacing: var(--ls-tight);
+  line-height: 1.2;
+  margin: 0;
+  color: var(--fg-primary);
+}
+
+/* Barra de progresso da meta */
+.guide__progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.guide__progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.guide__progress-bar span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: var(--gray-9);
+  border-radius: var(--radius-pill);
+  transition: width var(--dur-base) var(--ease-out);
+}
+.guide__progress-label {
+  font-size: var(--fz-micro);
+  font-weight: var(--fw-heavy);
+  color: var(--fg-tertiary);
+  white-space: nowrap;
+}
+
+/* Passos — em linha, separados, compactos. */
+.guide__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.guide__step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fz-xs);
+  line-height: 1.3;
+  color: var(--fg-tertiary);
+}
+.guide__step--done {
+  color: var(--fg-muted);
+}
+.guide__step--current {
+  color: var(--fg-primary);
+  font-weight: var(--fw-bold);
+}
+.guide__step-mark {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--border-strong);
+  color: transparent;
+  transition: all var(--dur-base) var(--ease-out);
+}
+.guide__step--done .guide__step-mark {
+  background: var(--gray-9);
+  border-color: var(--gray-9);
+  color: #fff;
+}
+.guide__step--current .guide__step-mark {
+  border-color: var(--gray-9);
+}
+.guide__step-num {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: var(--fw-black);
+  color: var(--fg-muted);
+}
+
+/* Dica contextual — o que fazer agora */
+.guide__hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 11px;
+  background: var(--gray-9);
+  color: var(--fg-on-dark);
+  border-radius: var(--radius-md);
+  font-size: var(--fz-xs);
+  font-weight: var(--fw-semibold);
+  line-height: 1.35;
+}
+.guide__hint .icon {
+  color: var(--green-5);
+}
+.guide__hint--done {
+  background: var(--green-7);
+}
+.guide__hint--done .icon {
+  color: #fff;
+}
+
+/* Cluster de navegação — lado direito da barra inferior. */
+.nav-cluster {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  background: var(--bg-app);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  padding: var(--card-pad);
+  animation: hud-in var(--dur-base) var(--ease-out) both;
+  animation-delay: 120ms;
+}
+.hud__progress {
+  font-size: var(--fz-xs);
+  font-weight: var(--fw-heavy);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-overline);
+  color: var(--fg-muted);
+  white-space: nowrap;
+}
+
+/* Botões de controle — centro da barra inferior. A interface do metrô. */
+.controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  /* stretch = todos os botões ficam com a altura do mais alto. */
+  align-items: stretch;
+  justify-content: flex-end;
+  /* Card central da barra — mesma moldura da meta e da navegação. */
+  /* background: var(--bg-app); */
+  /* border: 1px solid var(--border-default); */
+  /* border-radius: var(--radius-lg); */
+  /* box-shadow: var(--shadow-xs); */
+  /* padding: var(--card-pad); */
+  animation: hud-in var(--dur-base) var(--ease-out) both;
+  animation-delay: 100ms;
+}
+.control-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 264px;
+  text-align: left;
+  background: var(--gray-9);
+  color: var(--fg-on-dark);
+  border: 1px solid var(--gray-9);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  cursor: pointer;
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+  animation: rise-in var(--dur-base) var(--ease-out) both;
+}
+.control-btn:hover {
+  transform: var(--translate-bento);
+  box-shadow: var(--shadow-bento-hover);
+}
+.control-btn:active {
+  transform: var(--transform-active);
+}
+.control-btn__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.control-btn__icon {
+  color: var(--green-5);
+}
+.control-btn__label {
+  font-size: var(--fz-md);
+  font-weight: var(--fw-bold);
+}
+.control-btn__hint {
+  font-size: var(--fz-xs);
+  font-weight: var(--fw-medium);
+  color: var(--gray-4);
+  line-height: 1.45;
+}
+.control-btn__git {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--gray-8);
+}
+.control-btn__git .icon {
+  color: var(--green-5);
+}
+.control-btn__git code {
+  font-size: var(--fz-xs);
+  font-weight: var(--fw-bold);
+  color: var(--green-5);
+}
+.control-btn__git-hint {
+  flex-basis: 100%;
+  font-size: 10px;
+  color: var(--gray-4);
+  line-height: 1.4;
+}
+
+/* Activity log — discreto, canto inferior-direito, acima da navegação.
+   (O canto inferior-esquerdo agora pertence ao painel do guia.) */
+/* Registro de atividade — flutua no canto inferior-direito do mapa. */
+/* Registro de atividade — fixo no canto inferior-direito, ACIMA da barra. */
+.activity {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  z-index: 2;
+  width: 300px;
+  max-width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-end;
+  pointer-events: none;
+}
+.activity__line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fz-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--fg-secondary);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius-sm);
+  padding: 4px 9px;
+  animation: rise-in var(--dur-fast) var(--ease-out) both;
+}
+.activity__line .icon {
+  flex: none;
+}
+.activity__line--ok {
+  color: var(--green-7);
+}
+.activity__line--ok .icon {
+  color: var(--green-5);
+}
+.activity__line--dim {
+  color: var(--fg-muted);
+}
+
+/* ── The reveal overlay ────────────────────────────────────────────── */
+.reveal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(52, 50, 45, 0.55);
+  backdrop-filter: blur(8px);
+  padding: 24px;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-default);
+}
+.reveal--in {
+  opacity: 1;
+}
+.reveal__card {
+  background: var(--bg-app);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  padding: 48px;
+  max-width: 560px;
+  width: 100%;
+}
+.reveal__card .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.reveal__card .display {
+  font-size: var(--fz-h2);
+  margin: 8px 0 16px;
+}
+.reveal__lede {
+  font-size: var(--fz-md);
+  color: var(--fg-secondary);
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+.reveal__map {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.reveal__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  animation: rise-in var(--dur-base) var(--ease-out) both;
+}
+/* Linhas do mapa entram escalonadas — uma após a outra. */
+.reveal__row:nth-child(1) {
+  animation-delay: 80ms;
+}
+.reveal__row:nth-child(2) {
+  animation-delay: 160ms;
+}
+.reveal__row:nth-child(3) {
+  animation-delay: 240ms;
+}
+.reveal__row:nth-child(4) {
+  animation-delay: 320ms;
+}
+.reveal__icon {
+  color: var(--gray-9);
+  display: flex;
+}
+.reveal__metro {
+  font-weight: var(--fw-bold);
+  font-size: var(--fz-sm);
+  min-width: 110px;
+}
+.reveal__arrow {
+  font-size: var(--fz-xs);
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-overline);
+}
+.reveal__git {
+  font-size: var(--fz-xs);
+  font-weight: var(--fw-bold);
+  color: var(--gray-9);
+  margin-left: auto;
+}
+.reveal__glossary {
+  display: grid;
+  gap: 6px;
+  font-size: var(--fz-xs);
+  color: var(--fg-secondary);
+  border-left: 2px solid var(--gray-9);
+  padding-left: 14px;
+  margin-bottom: 20px;
+}
+.reveal__stat {
+  font-size: var(--fz-sm);
+  color: var(--fg-secondary);
+  margin: 0 0 24px;
+}
+
+/* Screen-reader live region — Canvas is invisible to AT, this narrates it. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Footer */
+.footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: 40px 0;
+  margin-top: 80px;
+  color: var(--fg-tertiary);
+  font-size: var(--fz-xs);
+}

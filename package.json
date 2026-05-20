@@ -9,6 +9,7 @@
     "dev": "bun --watch src/app.js",
     "start": "bun src/app.js",
     "build": "bun build public/js/game/main.js --outdir public/js/game/dist --minify --target browser",
+    "build:static": "bun scripts/build-static.js",
     "test": "bun test"
   },
   "dependencies": {
