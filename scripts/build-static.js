@@ -8,7 +8,8 @@
    Saída (docs/):
      index.html        — a página do jogo, com caminhos relativos
      .nojekyll         — impede o Jekyll de processar a pasta
-     css/, js/, assets/ — copiados de public/
+     CNAME             — domínio custom do GitHub Pages
+     public/...        — css, js e assets copiados de public/
 
    Uso:  bun run build:static
    ───────────────────────────────────────────────────────────────────── */
@@ -17,6 +18,53 @@ import { mkdir, rm, cp } from 'node:fs/promises';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const OUT = `${ROOT}docs`;
+
+/* Domínio de produção (GitHub Pages + CNAME). Absoluto — exigido por
+   og:url, canonical e og:image; crawlers não resolvem caminhos "./".
+   Forçamos https: o GitHub Pages só serve por TLS e og:image:secure_url
+   exige https — mesmo que o .env de dev traga um SITE_URL com http. */
+const SITE_URL = (process.env.SITE_URL ?? 'https://metro-git.ciromaciel.click')
+  .replace(/\/$/, '')
+  .replace(/^http:/, 'https:');
+
+/* SEO neutro — espelha src/views/layout.js. Descreve o jogo de metrô,
+   nunca o Git por trás dele. A pista é o ícone do Git na og-image. */
+const SEO = {
+  description:
+    'Construa linhas, abra estações e conduza o trem. Um jogo de ' +
+    'estratégia onde você opera uma rede de metrô que cresce a cada ' +
+    'nível. Jogue no navegador, sem cadastro.',
+  ogTitle: 'Metrô — Opere a Rede',
+  ogImage: `${SITE_URL}/public/assets/og-image.png`,
+  locale: 'pt_BR',
+  themeColor: '#34322D',
+};
+
+/* JSON-LD — VideoGame + WebSite, idêntico ao do servidor. */
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'VideoGame',
+      name: SEO.ogTitle,
+      url: SITE_URL,
+      description: SEO.description,
+      image: SEO.ogImage,
+      genre: ['Strategy', 'Puzzle', 'Educational'],
+      gamePlatform: 'Web browser',
+      applicationCategory: 'Game',
+      operatingSystem: 'Any',
+      inLanguage: 'pt-BR',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'BRL' },
+    },
+    {
+      '@type': 'WebSite',
+      name: SEO.ogTitle,
+      url: SITE_URL,
+      inLanguage: 'pt-BR',
+    },
+  ],
+});
 
 /* ── 1. Limpa e recria docs/ ────────────────────────────────────────── */
 await rm(OUT, { recursive: true, force: true });
@@ -37,12 +85,42 @@ const html = `<!doctype html>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Opere a Rede · Metrô</title>
-  <meta name="description" content="Construa linhas, abra estações e conduza o trem. Um jogo de estratégia onde você opera uma rede de metrô que cresce a cada nível. Jogue no navegador, sem cadastro." />
-  <meta name="theme-color" content="#34322D" />
+  <meta name="description" content="${SEO.description}" />
+  <meta name="theme-color" content="${SEO.themeColor}" />
+  <link rel="canonical" href="${SITE_URL}/" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Ícones -->
   <link rel="icon" type="image/webp" href="./public/assets/favicon.webp" />
+  <link rel="apple-touch-icon" href="./public/assets/apple-touch-icon.png" />
+
+  <!-- Open Graph — preview ao compartilhar (LinkedIn, WhatsApp, etc.).
+       Copy neutra de propósito; a imagem traz o ícone do Git como
+       marca d'água, a única pista da revelação. URLs absolutas: os
+       crawlers não resolvem caminhos relativos. -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Metrô — Opere a Rede" />
-  <meta property="og:description" content="Construa linhas, abra estações e conduza o trem. Jogue no navegador, sem cadastro." />
+  <meta property="og:site_name" content="Metrô" />
+  <meta property="og:locale" content="${SEO.locale}" />
+  <meta property="og:title" content="${SEO.ogTitle}" />
+  <meta property="og:description" content="${SEO.description}" />
+  <meta property="og:url" content="${SITE_URL}/" />
+  <meta property="og:image" content="${SEO.ogImage}" />
+  <meta property="og:image:secure_url" content="${SEO.ogImage}" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Mapa de uma rede de metrô — Opere a Rede" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${SEO.ogTitle}" />
+  <meta name="twitter:description" content="${SEO.description}" />
+  <meta name="twitter:image" content="${SEO.ogImage}" />
+  <meta name="twitter:image:alt" content="Mapa de uma rede de metrô — Opere a Rede" />
+
+  <!-- Dados estruturados -->
+  <script type="application/ld+json">${jsonLd}</script>
+
   <link rel="stylesheet" href="./public/css/tokens.css" />
   <link rel="stylesheet" href="./public/css/app.css" />
   <script type="module" src="./public/js/game/main.js"></script>
@@ -57,6 +135,10 @@ await Bun.write(`${OUT}/index.html`, html);
 
 /* ── 4. .nojekyll — o GitHub Pages não deve rodar Jekyll na pasta ───── */
 await Bun.write(`${OUT}/.nojekyll`, '');
+
+/* ── 5. CNAME — o domínio custom. Recriar docs/ apaga o arquivo, então
+       o build precisa reescrevê-lo, ou o GitHub Pages perde o domínio. */
+await Bun.write(`${OUT}/CNAME`, `${new URL(SITE_URL).host}\n`);
 
 console.log('Build estático pronto em docs/ — pronto para o GitHub Pages.');
 
